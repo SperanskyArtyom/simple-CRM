@@ -58,14 +58,14 @@ Backend-сервис для управления продавцами и их т
 ### Продавцы
 * **Создать продавца**: 
   * `POST /api/v1/sellers`, 
-  * тело запроса - CreateSellerRequest
+  * Тело запроса - CreateSellerRequest
 * **Получить список всех продавцов**:
   * `GET /api/v1/sellers`
 * **Получить продавца по id**:
   * `GET /api/v1/sellers/{id}`
 * **Обновить данные продавца по id**:
   * `PATCH /api/v1/sellers/{id}`,
-  * тело запроса - UpdateSellerRequest
+  * Тело запроса - UpdateSellerRequest
 * **Удалить продавца по id**:
   * `DELETE /api/v1/sellers/{id}`
 
@@ -91,14 +91,14 @@ Backend-сервис для управления продавцами и их т
   "id": 1,
   "name": "Jhon",
   "contactInfo": "phone: +1234567890000",
-  "registrationDate": "2026-05-12T17:46:33.137Z"
+  "registrationDate": "2026-05-12T17:46:33.137"
 }
 ```
 
 ### Транзакции
 * **Создать транзакцию**: 
   * `POST /api/v1/transactions`
-  * тело запроса - CreateTransactionRequest
+  * Тело запроса - CreateTransactionRequest
 * **Получить список всех транзакции**:
   * `GET /api/v1/transactions`
 * **Получить транзакцию по id**: 
@@ -106,7 +106,7 @@ Backend-сервис для управления продавцами и их т
 * **Получить список транзакций конкретного продавца**: 
   * `GET /api/v1/transactions?sellerId=1`
 
-**CreateTransactionRequest**:
+**CreateTransactionRequest** (все поля обязательны):
 ```json
 {
   "sellerId": 1,
@@ -122,37 +122,32 @@ Backend-сервис для управления продавцами и их т
     "sellerId": 1,
     "amount": 100,
     "paymentType": "CASH",
-    "transactionDate": "2026-05-12T17:54:34.332Z"
+    "transactionDate": "2026-05-12T17:54:34.332"
 }
 ```
 
 ### Аналитика
 * **Получить лучшего продавца за период** 
     * `GET /api/v1/statistics/top?period=DAY`
-    * значения параметра period: `DAY, MONTH, QUARTER, YEAR`
+    * Значения параметра period: `DAY, MONTH, QUARTER, YEAR`
 * **Получить список продавцов с суммой транзакций за указанный период меньше указанной**:
-    * `GET /api/v1/statistics/sellers-under-threshold` 
-    * тело запроса - SellerStatisticsRequest
-
-**SellerStatisticsRequest**:
-```json
-{
-  "start": "2026-05-12T18:06:09.654Z",
-  "end": "2026-05-14T18:06:09.654Z",
-  "maxTotalAmount": 100.50
-}
-```
+    * `GET /api/v1/statistics/sellers-under-threshold?start=startDate&end=endDate&maxTotalAmount=100` 
+    * Параметры запроса:
+      * start / end - дата начала и конца периода в формате ISO LocalDateTime (`yyyy-MM-ddTHH:mm:ss.SSS`)
+        * *Пример*: `2026-05-12T18:06:09`
+        * *Важно*: Не указывайте символ Z в конце (строго без временной зоны).
+      * maxTotalAmount - максимальная сумма транзакций number
 
 ### Вывод ошибок
 Ошибки при выполнении запроса возвращаются в стандартизированном формате:
 ```json
 {
   "message": "Error message",
-  "timestamp": "2026-05-12T18:06:09.698Z",
+  "timestamp": "2026-05-12T18:06:09.698",
   "errors": {
     "additionalError1": "Additional error message",
     "additionalError2": "Additional error message",
-    ...
+    "additionalError3": "..."
   }
 }
 ```
