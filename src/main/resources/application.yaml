@@ -17,6 +17,14 @@ spring:
     show-sql: false
     open-in-view: false
 
+springdoc:
+  swagger-ui:
+    enabled: true
+  api-docs:
+    enabled: true
+
 logging:
   level:
-    ru.shift.demo.simple_crm: INFO
+    ru.shift.demo.simple_crm: DEBUG
+    org.springframework.web.servlet.mvc.method.annotation: WARN
+    org.springframework.http.converter.json: WARN
