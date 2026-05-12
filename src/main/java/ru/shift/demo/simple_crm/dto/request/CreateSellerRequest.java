@@ -10,4 +10,5 @@ public record CreateSellerRequest(
         @NotBlank(message = "Contact information is required")
         @Size(max = 255, message = "Contact information must be less than 255 characters")
         String contactInfo
-) { }
+) {
+}
