@@ -8,6 +8,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 import ru.shift.demo.simple_crm.dto.response.ErrorResponse;
 import ru.shift.demo.simple_crm.exception.ResourceNotFoundException;
 
@@ -53,6 +54,20 @@ public class GlobalExceptionHandler {
 
         return new ErrorResponse(
                 "Invalid request body format",
+                LocalDateTime.now(),
+                null
+        );
+    }
+
+    @ExceptionHandler(MethodArgumentTypeMismatchException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ErrorResponse handleTypeMismatch(MethodArgumentTypeMismatchException ex) {
+        String message = "Parameter '%s' has invalid value '%s'"
+                .formatted(ex.getName(), ex.getValue());
+        log.debug("Type mismatch: {}", message);
+
+        return new ErrorResponse(
+                message,
                 LocalDateTime.now(),
                 null
         );
