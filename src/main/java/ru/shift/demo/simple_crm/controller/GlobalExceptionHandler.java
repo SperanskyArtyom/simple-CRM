@@ -2,6 +2,7 @@ package ru.shift.demo.simple_crm.controller;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -45,9 +46,21 @@ public class GlobalExceptionHandler {
         );
     }
 
+    @ExceptionHandler(HttpMessageNotReadableException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ErrorResponse handleJsonErrors(HttpMessageNotReadableException ex) {
+        log.debug("Invalid JSON format or value: {}", ex.getMostSpecificCause().getMessage());
+
+        return new ErrorResponse(
+                "Invalid request body format",
+                LocalDateTime.now(),
+                null
+        );
+    }
+
     @ExceptionHandler(Exception.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-    public ErrorResponse handleAll(RuntimeException ex) {
+    public ErrorResponse handleAll(Exception ex) {
         log.error("Unexpected error occurred", ex);
         return new ErrorResponse(
                 ex.getMessage(),
