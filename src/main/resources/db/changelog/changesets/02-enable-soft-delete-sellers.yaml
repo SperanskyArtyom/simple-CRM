@@ -1,0 +1,22 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1
+      author: artyom
+      changes:
+        - addColumn:
+            tableName: sellers
+            columns:
+              - column:
+                  name: updated_at
+                  type: TIMESTAMP
+              - column:
+                  name: deleted
+                  type: boolean
+                  defaultValueBoolean: false
+        - addColumn:
+            tableName: transactions
+            columns:
+              - column:
+                  name: created_at
+                  type: timestamp
+                  defaultValueComputed: CURRENT_TIMESTAMP
