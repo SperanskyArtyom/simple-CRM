@@ -1,0 +1,21 @@
+spring:
+  main:
+    banner-mode: "off"
+  datasource:
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: validate
+
+springdoc:
+  swagger-ui:
+    enabled: false
+  api-docs:
+    enabled: false
+
+logging:
+  level:
+    root: WARN
+    ru.shift.demo.simple_crm: ERROR
+    org.springframework: ERROR
