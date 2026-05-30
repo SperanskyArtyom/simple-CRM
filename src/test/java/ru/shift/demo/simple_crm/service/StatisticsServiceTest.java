@@ -12,7 +12,8 @@ import ru.shift.demo.simple_crm.exception.ResourceNotFoundException;
 import ru.shift.demo.simple_crm.repository.TransactionRepository;
 
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.Optional;
 
@@ -38,7 +39,7 @@ class StatisticsServiceTest {
                 .name("John Smith")
                 .build();
 
-        when(transactionRepository.findTopSellerInPeriod(any(LocalDateTime.class), any(LocalDateTime.class)))
+        when(transactionRepository.findTopSellerInPeriod(any(Instant.class), any(Instant.class)))
                 .thenReturn(Optional.of(topSeller));
 
         // When
@@ -46,13 +47,13 @@ class StatisticsServiceTest {
 
         // Then
         assertEquals("John Smith", result.name());
-        verify(transactionRepository).findTopSellerInPeriod(any(LocalDateTime.class), any(LocalDateTime.class));
+        verify(transactionRepository).findTopSellerInPeriod(any(Instant.class), any(Instant.class));
     }
 
     @Test
     void getMostProductiveSeller_ShouldThrowException_WhenNotFound() {
         // Given
-        when(transactionRepository.findTopSellerInPeriod(any(LocalDateTime.class), any(LocalDateTime.class)))
+        when(transactionRepository.findTopSellerInPeriod(any(Instant.class), any(Instant.class)))
                 .thenReturn(Optional.empty());
 
         // When & then
@@ -64,8 +65,8 @@ class StatisticsServiceTest {
     void getSellersUnderThreshold_ShouldReturnList() {
         // Given
         var request = new SellerStatisticsRequest(
-                LocalDateTime.now().minusDays(7),
-                LocalDateTime.now(),
+                Instant.now().minus(7, ChronoUnit.DAYS),
+                Instant.now(),
                 new BigDecimal("1000.00")
         );
 

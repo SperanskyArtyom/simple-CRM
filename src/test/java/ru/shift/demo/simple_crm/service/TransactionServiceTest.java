@@ -14,7 +14,6 @@ import ru.shift.demo.simple_crm.repository.SellerRepository;
 import ru.shift.demo.simple_crm.repository.TransactionRepository;
 
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -48,7 +47,6 @@ class TransactionServiceTest {
                         .seller(seller)
                         .amount(new BigDecimal("100.00"))
                         .paymentType(PaymentType.CASH)
-                        .transactionDate(LocalDateTime.now())
                         .build()
         ));
 
@@ -82,7 +80,6 @@ class TransactionServiceTest {
                 .seller(seller)
                 .amount(new BigDecimal("500.00"))
                 .paymentType(PaymentType.CARD)
-                .transactionDate(LocalDateTime.now())
                 .build();
 
         when(sellerRepository.findById(sellerId)).thenReturn(Optional.of(seller));

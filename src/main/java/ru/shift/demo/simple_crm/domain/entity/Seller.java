@@ -7,7 +7,7 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
 
 @Entity
 @Table(name = "sellers")
@@ -30,9 +30,9 @@ public class Seller {
 
     @CreatedDate
     @Column(name = "registration_date", nullable = false, updatable = false)
-    private LocalDateTime registrationDate;
+    private Instant registrationDate;
 
     @LastModifiedDate
     @Column(name = "updated_at")
-    private LocalDateTime updatedAt;
+    private Instant updatedAt;
 }

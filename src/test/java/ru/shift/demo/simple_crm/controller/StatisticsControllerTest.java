@@ -16,7 +16,8 @@ import ru.shift.demo.simple_crm.repository.SellerRepository;
 import ru.shift.demo.simple_crm.repository.TransactionRepository;
 
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -53,21 +54,21 @@ class StatisticsControllerTest {
                 .seller(topSeller)
                 .amount(new BigDecimal("1000.00"))
                 .paymentType(PaymentType.CARD)
-                .transactionDate(LocalDateTime.now().minusHours(1))
+                .transactionDate(Instant.now().minus(1, ChronoUnit.HOURS))
                 .build());
 
         transactionRepository.save(Transaction.builder()
                 .seller(topSeller)
                 .amount(new BigDecimal("500.00"))
                 .paymentType(PaymentType.CASH)
-                .transactionDate(LocalDateTime.now().minusHours(2))
+                .transactionDate(Instant.now().minus(2, ChronoUnit.HOURS))
                 .build());
 
         transactionRepository.save(Transaction.builder()
                 .seller(averageSeller)
                 .amount(new BigDecimal("300.00"))
                 .paymentType(PaymentType.CARD)
-                .transactionDate(LocalDateTime.now().minusHours(5))
+                .transactionDate(Instant.now().minus(5, ChronoUnit.HOURS))
                 .build());
     }
 
@@ -83,8 +84,8 @@ class StatisticsControllerTest {
     @Test
     void shouldReturnSellersUnderThreshold() throws Exception {
         mockMvc.perform(get("/api/v1/statistics/sellers-under-threshold")
-                        .param("start", LocalDateTime.now().minusDays(1).toString())
-                        .param("end", LocalDateTime.now().plusDays(1).toString())
+                        .param("start", Instant.now().minus(1, ChronoUnit.DAYS).toString())
+                        .param("end", Instant.now().plus(1, ChronoUnit.DAYS).toString())
                         .param("maxTotalAmount", "1000"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.length()").value(1))
@@ -94,8 +95,8 @@ class StatisticsControllerTest {
     @Test
     void shouldReturnEmptyList_WhenAllSellersAboveThreshold() throws Exception {
         mockMvc.perform(get("/api/v1/statistics/sellers-under-threshold")
-                        .param("start", LocalDateTime.now().minusDays(1).toString())
-                        .param("end", LocalDateTime.now().plusDays(1).toString())
+                        .param("start", Instant.now().minus(1, ChronoUnit.DAYS).toString())
+                        .param("end", Instant.now().plus(1, ChronoUnit.DAYS).toString())
                         .param("maxTotalAmount", "100"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.length()").value(0));

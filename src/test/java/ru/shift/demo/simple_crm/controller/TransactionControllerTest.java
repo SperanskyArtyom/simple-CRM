@@ -15,7 +15,6 @@ import ru.shift.demo.simple_crm.repository.SellerRepository;
 import ru.shift.demo.simple_crm.repository.TransactionRepository;
 
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -43,7 +42,6 @@ class TransactionControllerTest {
                         .seller(seller)
                         .amount(new BigDecimal("500.00"))
                         .paymentType(PaymentType.CARD)
-                        .transactionDate(LocalDateTime.now())
                         .build()
         );
 

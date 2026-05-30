@@ -10,7 +10,9 @@ import ru.shift.demo.simple_crm.dto.response.SellerResponse;
 import ru.shift.demo.simple_crm.exception.ResourceNotFoundException;
 import ru.shift.demo.simple_crm.repository.TransactionRepository;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.List;
 
 @Service
@@ -22,13 +24,18 @@ public class StatisticsService {
     public SellerResponse getMostProductiveSeller(PeriodType periodType) {
         log.info("Calculating most productive seller for period: {}", periodType);
 
-        LocalDateTime end = LocalDateTime.now();
-        LocalDateTime start = switch (periodType) {
-            case DAY -> end.minusDays(1);
-            case MONTH -> end.minusMonths(1);
-            case QUARTER -> end.minusMonths(3);
-            case YEAR -> end.minusYears(1);
+        ZoneId zone = ZoneId.systemDefault();
+        ZonedDateTime endZoned = ZonedDateTime.now(zone);
+
+        ZonedDateTime startZoned = switch (periodType) {
+            case DAY -> endZoned.minusDays(1);
+            case MONTH -> endZoned.minusMonths(1);
+            case QUARTER -> endZoned.minusMonths(3);
+            case YEAR -> endZoned.minusYears(1);
         };
+
+        Instant start = startZoned.toInstant();
+        Instant end = endZoned.toInstant();
 
         return transactionRepository.findTopSellerInPeriod(start, end)
                 .map(this::mapToResponse)
