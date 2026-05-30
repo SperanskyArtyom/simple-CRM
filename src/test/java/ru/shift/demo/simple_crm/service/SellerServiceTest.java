@@ -10,7 +10,6 @@ import ru.shift.demo.simple_crm.dto.request.CreateSellerRequest;
 import ru.shift.demo.simple_crm.dto.request.UpdateSellerRequest;
 import ru.shift.demo.simple_crm.repository.SellerRepository;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -65,7 +64,6 @@ class SellerServiceTest {
                 .id(1L)
                 .name("John Smith")
                 .contactInfo("john@example.com")
-                .registrationDate(LocalDateTime.now())
                 .build();
 
         when(sellerRepository.save(any(Seller.class))).thenReturn(savedEntity);

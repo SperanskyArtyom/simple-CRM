@@ -2,13 +2,16 @@ package ru.shift.demo.simple_crm.domain.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import ru.shift.demo.simple_crm.domain.entity.constants.PaymentType;
 
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
+import java.time.Instant;
 
 @Entity
 @Table(name = "transactions")
+@EntityListeners(AuditingEntityListener.class)
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
@@ -29,13 +32,7 @@ public class Transaction {
     @Column(nullable = false)
     private PaymentType paymentType;
 
+    @CreatedDate
     @Column(name = "transaction_date", nullable = false)
-    private LocalDateTime transactionDate;
-
-    @PrePersist
-    protected void onCreate() {
-        if (transactionDate == null) {
-            transactionDate = LocalDateTime.now();
-        }
-    }
+    private Instant transactionDate;
 }

@@ -8,15 +8,8 @@ databaseChangeLog:
             columns:
               - column:
                   name: updated_at
-                  type: TIMESTAMP
+                  type: TIMESTAMPTZ
               - column:
                   name: deleted
                   type: boolean
                   defaultValueBoolean: false
-        - addColumn:
-            tableName: transactions
-            columns:
-              - column:
-                  name: created_at
-                  type: timestamp
-                  defaultValueComputed: CURRENT_TIMESTAMP

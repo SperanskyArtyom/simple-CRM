@@ -25,7 +25,7 @@ databaseChangeLog:
                     nullable: false
               - column:
                   name: registration_date
-                  type: TIMESTAMP
+                  type: TIMESTAMPTZ
                   defaultValueComputed: CURRENT_TIMESTAMP
                   constraints:
                     nullable: false
@@ -57,7 +57,7 @@ databaseChangeLog:
                     nullable: false
               - column:
                   name: transaction_date
-                  type: TIMESTAMP
+                  type: TIMESTAMPTZ
                   defaultValueComputed: CURRENT_TIMESTAMP
                   constraints:
                     nullable: false
